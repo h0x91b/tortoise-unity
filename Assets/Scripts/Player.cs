@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
 	public AudioClip missSound;
 	public AudioClip axeHit; 
 	public GameObject axe;
+	public GameObject testCube;
 	// Use this for initialization
 	void Start () {
 		audioSource = GetComponent<AudioSource> ();
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour {
 		availableInstruments = new List<Instruments> ();
 		availableInstruments.Add (Instruments.Axe);
 		availableInstruments.Add (Instruments.Pickaxe);
+		availableInstruments.Add (Instruments.BuildMode);
 		selectedInstrument = Instruments.Axe;
 		selectedInstrumentGUI.text = String.Format("In hand: {0}", selectedInstrument.ToString ());
 	}
@@ -71,11 +73,17 @@ public class Player : MonoBehaviour {
 		RaycastHit hit;
 
 		if (Physics.Raycast (ray.origin, ray.direction, out hit)) {
-			if(hit.transform.tag == "Terrain") {
+			if(selectedInstrument == Instruments.BuildMode && hit.transform.tag == "Terrain") {
 				float height = Terrain.activeTerrain.SampleHeight(hit.point);
 				actionItemGUI.text = String.Format("Terrain height {0}", height);
 				actionItemGUI.enabled = true;
 				actionItemGUI.color = Color.blue;
+				//There is no Physics.CheckBox! only sphere and capsule :(((((
+				height+=0.05f;
+				if(!Physics.CheckCapsule(new Vector3(hit.point.x, height+testCube.transform.localScale.y/2f, hit.point.z), new Vector3(hit.point.x, height+testCube.transform.localScale.y, hit.point.z), testCube.transform.localScale.x/2f)) {
+					testCube.transform.position = new Vector3(hit.point.x, height+testCube.transform.localScale.y/2f+0.05f, hit.point.z);
+				}
+				//
 			} else if (hit.transform.tag != "Interactive" && hit.transform.tag != "Pickable") {
 				Debug.DrawRay (ray.origin, ray.direction * 100, Color.red);
 				actionItemGUI.enabled = false;
