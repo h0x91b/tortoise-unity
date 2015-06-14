@@ -23,3 +23,5 @@ sysinfo.txt
 *.exe
 .sync
 
+.DS_Store
+*.app
