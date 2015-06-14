@@ -71,6 +71,13 @@ public class Player : MonoBehaviour {
 		RaycastHit hit;
 
 		if (Physics.Raycast (ray.origin, ray.direction, out hit)) {
+			if(hit.transform.tag == "Terrain") {
+				float height = Terrain.activeTerrain.SampleHeight(hit.point);
+				actionItemGUI.text = String.Format("Terrain height {0}", height);
+				actionItemGUI.enabled = true;
+				actionItemGUI.color = Color.blue;
+				return;
+			}
 			if (hit.transform.tag != "Interactive" && hit.transform.tag != "Pickable") {
 				Debug.DrawRay (ray.origin, ray.direction * 100, Color.red);
 				actionItemGUI.enabled = false;
