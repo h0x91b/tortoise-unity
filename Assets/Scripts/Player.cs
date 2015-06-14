@@ -76,9 +76,7 @@ public class Player : MonoBehaviour {
 				actionItemGUI.text = String.Format("Terrain height {0}", height);
 				actionItemGUI.enabled = true;
 				actionItemGUI.color = Color.blue;
-				return;
-			}
-			if (hit.transform.tag != "Interactive" && hit.transform.tag != "Pickable") {
+			} else if (hit.transform.tag != "Interactive" && hit.transform.tag != "Pickable") {
 				Debug.DrawRay (ray.origin, ray.direction * 100, Color.red);
 				actionItemGUI.enabled = false;
 				crosschair.color = Color.red;
