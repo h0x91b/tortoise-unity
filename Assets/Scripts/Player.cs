@@ -3,6 +3,8 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using Boomlagoon.JSON;
+
 
 public class Player : MonoBehaviour {
 	Camera camera;
@@ -23,6 +25,10 @@ public class Player : MonoBehaviour {
 	public GameObject testCube;
 	// Use this for initialization
 	void Start () {
+
+		JSONObject jsonObject = JSONObject.Parse("{\"hello\":\"tab \\t, new line \\n, carret \\r, slash \\\\, slash \\/\"}");
+		var str = jsonObject.GetString ("hello");
+
 		audioSource = GetComponent<AudioSource> ();
 		camera = GetComponentInChildren<Camera> ();
 		Cursor.visible = false; 
